@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "StopwatchApp"
 include ':app'
+include ':library'
