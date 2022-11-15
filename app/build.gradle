@@ -1,0 +1,17 @@
+plugins {
+    alias libs.plugins.android.application
+    alias libs.plugins.kotlin.android
+}
+
+// shared deps
+apply from: "$rootProject.projectDir/base.gradle"
+
+android {
+    namespace 'com.github.fmaxx.stopwatch'
+}
+
+dependencies {
+//    implementation(":library")
+    implementation project(path: ':library')
+    implementation(libs.lifecycleRuntime)
+}
