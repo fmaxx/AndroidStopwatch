@@ -7,7 +7,7 @@ plugins {
 apply from: "$rootProject.projectDir/base.gradle"
 
 android {
-    namespace 'com.github.fmaxx.stopwatch'
+    namespace 'com.github.fmaxx.stopwatchDemo'
 }
 
 dependencies {

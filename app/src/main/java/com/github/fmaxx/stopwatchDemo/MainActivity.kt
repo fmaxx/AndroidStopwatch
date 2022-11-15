@@ -1,4 +1,4 @@
-package com.github.fmaxx.stopwatch
+package com.github.fmaxx.stopwatchDemo
 
 import android.os.Bundle
 import android.widget.Button
@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.github.fmaxx.stopwatch.Stopwatch
+import com.github.fmaxx.stopwatch.StopwatchProcessor
 import com.github.fmaxx.stopwatch.time.TimestampMillisecondsFormatter
 import kotlinx.coroutines.launch
 
