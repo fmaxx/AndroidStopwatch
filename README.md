@@ -2,6 +2,8 @@
 
 Simple realisation of Stopwatch.
 
+![demo](/images/screencast.gif)
+
 # Using
 
 ## Common case
@@ -32,5 +34,7 @@ YOUR_SCOPE.launch {
     }
 }
 ```
+
+
 
 
