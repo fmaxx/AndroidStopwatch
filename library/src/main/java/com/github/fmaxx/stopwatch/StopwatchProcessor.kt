@@ -14,12 +14,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
  * firsoffmaxim@gmail.com
  */
 class StopwatchProcessor(
-        private val scope: CoroutineScope,
-        private val tickDelayMilliseconds: Long = 20,
-        private val startMilliseconds: Long = 0,
-        holder: StateHolder? = null
+    private val scope: CoroutineScope,
+    private val tickDelayMilliseconds: Long = 20,
+    private val startMilliseconds: Long = 0,
+    holder: StateHolder? = null,
 ) {
-
     private val stateHolder: StateHolder
     private var job: Job? = null
     private val _ticker = MutableStateFlow(0L)
@@ -35,28 +34,28 @@ class StopwatchProcessor(
         val timestampProvider = TimestampProviderImpl()
         val elapsedTime = ElapsedTime(timestampProvider = timestampProvider)
         val calculator = StateCalculator(
-                timestampProvider = timestampProvider,
-                elapsedTime = elapsedTime)
-
+            timestampProvider = timestampProvider,
+            elapsedTime = elapsedTime)
         return StateHolder(
-                stateCalculator = calculator,
-                elapsedTime = elapsedTime,
-                formatter = TimestampMillisecondsFormatter(),
-                startMilliseconds
+            stateCalculator = calculator,
+            elapsedTime = elapsedTime,
+            formatter = TimestampMillisecondsFormatter(),
+            startMilliseconds
         )
     }
 
     fun start() {
-        if (job == null) startJob()
+        if (job == null) {
+            job = startJob()
+        }
         stateHolder.start()
     }
 
-    private fun startJob() {
-        scope.launch {
+    private fun startJob(): Job {
+        return scope.launch {
             while (isActive) {
                 _ticker.value = stateHolder.elapsedTimeMillis
                 delay(tickDelayMilliseconds)
-                println("stateHolder.elapsedTimeMillis: ${stateHolder.elapsedTimeMillis}, delay: $tickDelayMilliseconds")
             }
         }
     }
@@ -69,15 +68,11 @@ class StopwatchProcessor(
     fun stop() {
         stateHolder.stop()
         stopJob()
-        clearValue()
+        _ticker.value = 0
     }
 
     private fun stopJob() {
-        scope.coroutineContext.cancelChildren()
+        job?.cancel()
         job = null
-    }
-
-    private fun clearValue() {
-        _ticker.value = startMilliseconds
     }
 }

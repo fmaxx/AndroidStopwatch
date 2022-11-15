@@ -8,12 +8,14 @@ import com.github.fmaxx.stopwatch.time.TimestampMillisecondsFormatter
  * Created by Maxim Firsov on 31.10.2022.
  * firsoffmaxim@gmail.com
  */
-class StateHolder(private val stateCalculator: StateCalculator,
-                  private val elapsedTime: ElapsedTime,
-                  private val formatter: TimestampMillisecondsFormatter,
-                  private val startMilliseconds: Long = 0) {
+class StateHolder(
+    private val stateCalculator: StateCalculator,
+    private val elapsedTime: ElapsedTime,
+    private val formatter: TimestampMillisecondsFormatter,
+    startMilliseconds: Long = 0,
+) {
 
-    var state: State = getDefaultState()
+    var state: State = Paused(startMilliseconds)
         private set
 
     fun start() {
@@ -25,10 +27,8 @@ class StateHolder(private val stateCalculator: StateCalculator,
     }
 
     fun stop() {
-        state = getDefaultState()
+        state = Paused(0)
     }
-
-    private fun getDefaultState() = Paused(startMilliseconds)
 
     val elapsedTimeString: String
         get() = formatter.format(elapsedTimeMillis)

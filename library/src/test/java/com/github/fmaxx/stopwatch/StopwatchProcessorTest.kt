@@ -27,7 +27,7 @@ internal class StopwatchProcessorTest {
     }
 
     @Test
-    fun `Initially the stopwatch value is empty`() =
+    fun `Initially the stopwatch value is zero`() =
             runTest {
                 val sut = processor {
                     scope(testScheduler)
@@ -63,7 +63,7 @@ internal class StopwatchProcessorTest {
             }
 
     @Test
-    fun `When a stopwatch is stopped the value is set to an empty string`() =
+    fun `When a stopwatch is stopped the value is zero`() =
             runTest {
                 givenStateHolderReturnsTime(0)
                 val sut = processor {
@@ -91,10 +91,10 @@ internal class StopwatchProcessorTest {
                     scope(testScheduler)
                 }
                 sut.start()
-                runCurrentBy(1)
+                runCurrentBy(10)
                 assertEquals(sut.ticker.first(), 1_003)
                 sut.stop()
-                assertEquals(sut.ticker.first(), startMilliseconds)
+                assertEquals(sut.ticker.first(), 0)
             }
 
     private fun TestScope.runCurrentBy(delayTimeMillis: Long) {
