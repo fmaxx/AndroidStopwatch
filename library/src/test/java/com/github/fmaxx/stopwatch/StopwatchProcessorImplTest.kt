@@ -20,7 +20,7 @@ import strikt.assertions.isEqualTo
  * firsoffmaxim@gmail.com
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class StopwatchProcessorTest {
+internal class StopwatchProcessorImplTest {
 
     private val stateHolder: StateHolder = mockk(relaxed = true) {
         every { elapsedTimeMillis } returns 0
@@ -106,8 +106,8 @@ internal class StopwatchProcessorTest {
             tickDelayMs: Long = 1,
             startMilliseconds: Long = 0,
             stateHolder: StateHolder? = null,
-            scopeBlock: () -> CoroutineScope): StopwatchProcessor =
-            StopwatchProcessor(
+            scopeBlock: () -> CoroutineScope): StopwatchProcessorImpl =
+            StopwatchProcessorImpl(
                     holder = stateHolder ?: this.stateHolder,
                     scope = scopeBlock(),
                     tickDelayMilliseconds = tickDelayMs,

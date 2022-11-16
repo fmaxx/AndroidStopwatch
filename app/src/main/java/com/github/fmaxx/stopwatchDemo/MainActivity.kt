@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         stopwatch = createStopWatch()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                stopwatch.ticker.collect(::displayMillisecond)
+//                stopwatch.ticker.collect(::displayMillisecond)
+                stopwatch.collect(::displayMillisecond)
             }
         }
     }

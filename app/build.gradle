@@ -3,9 +3,11 @@ plugins {
     alias libs.plugins.kotlin.android
 }
 
+def isLocalDevelopment = true
+
 // shared deps
 apply from: "$rootProject.projectDir/base.gradle"
-def isLocalDevelopment = false
+
 android {
     namespace 'com.github.fmaxx.stopwatchDemo'
 }

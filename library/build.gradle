@@ -4,67 +4,8 @@ plugins {
     id 'maven-publish'
 }
 
-
-
-def getVersion = { ->
-    return "0.0.0" // Replace with version Name
-}
-
-def getArtifactId = { ->
-    return "library"
-}
-
-/*publishing {
-    publications {
-        bar(MavenPublication) {
-            groupId 'AndroidStopwatch'
-            artifactId getArtifactId()
-            version getVersion()
-            artifact("$buildDir/outputs/aar/${getArtifactId()}-release.aar")
-
-            //generate .pom file with transitive dependencies
-            pom.withXml {
-                final dependenciesNode = asNode().appendNode('dependencies')
-                ext.addDependency = { Dependency dep, String scope ->
-                    if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
-                        return
-                    final dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', dep.group)
-                    dependencyNode.appendNode('artifactId', dep.name)
-                    dependencyNode.appendNode('version', dep.version)
-                    dependencyNode.appendNode('scope', scope)
-                    if (!dep.transitive) {
-                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-                        exclusionNode.appendNode('groupId', '*')
-                        exclusionNode.appendNode('artifactId', '*')
-                    } else if (!dep.properties.excludeRules.empty) {
-                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-                        dep.properties.excludeRules.each { ExcludeRule rule ->
-                            exclusionNode.appendNode('groupId', rule.group ?: '*')
-                            exclusionNode.appendNode('artifactId', rule.module ?: '*')
-                        }
-                    }
-                }
-                configurations.api.getDependencies().each { dep -> addDependency(dep, "api") }
-                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            def githubProperties = new Properties()
-            githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
-
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/fmaxx/AndroidStopwatch")
-            credentials {
-                username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
-                password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
-            }
-        }
-    }
-}*/
+def getVersion = "0.0.1"
+def getArtifactId = "library"
 
 android {
     compileSdk 33
@@ -107,6 +48,7 @@ android {
 
 dependencies {
     implementation(libs.lifecycleViewmodelKtx)
+    implementation(libs.kotlinxCoroutinesAndroid)
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.androidTest)
 }

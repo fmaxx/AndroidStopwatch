@@ -24,7 +24,7 @@ class Stopwatch private constructor() {
         }
 
         fun build(): StopwatchProcessor =
-            StopwatchProcessor(
+            StopwatchProcessorImpl(
                 scope = scope,
                 tickDelayMilliseconds = tickDelay,
                 startMilliseconds = startMilliseconds)
