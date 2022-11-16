@@ -5,12 +5,16 @@ plugins {
 
 // shared deps
 apply from: "$rootProject.projectDir/base.gradle"
-
+def isLocalDevelopment = false
 android {
     namespace 'com.github.fmaxx.stopwatchDemo'
 }
 
 dependencies {
-    implementation project(path: ':library')
+    if (isLocalDevelopment) {
+        implementation project(path: ':library')
+    } else {
+        implementation('com.github.fmaxx:AndroidStopwatch:0.0.0')
+    }
     implementation(libs.lifecycleRuntime)
 }

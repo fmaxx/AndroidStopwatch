@@ -4,6 +4,24 @@ Simple realisation of Stopwatch.
 
 ![demo](/images/screencast.gif)
 
+# Install
+
+add jitpack.io repository to the top build.gradle or settings.gradle
+```groovy
+repositories {
+    // ...
+    maven { url 'https://jitpack.io' }
+}
+```
+
+add the dependency to your module build.gradle
+```groovy
+dependencies {
+    //...
+    implementation('com.github.fmaxx:AndroidStopwatch:0.0.0')
+}
+```
+
 # Using
 
 ## Common case
