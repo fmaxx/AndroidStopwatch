@@ -4,22 +4,20 @@ plugins {
     id 'maven-publish'
 }
 
-def githubProperties = new Properties()
-githubProperties.load(new FileInputStream(rootProject.file("github.properties"))) //Set env variable GPR_USER & GPR_API_KEY if not adding a properties file
+
 
 def getVersion = { ->
-    return "1.0.0" // Replace with version Name
+    return "0.0.0" // Replace with version Name
 }
 
 def getArtifactId = { ->
     return "library"
 }
 
-publishing {
+/*publishing {
     publications {
         bar(MavenPublication) {
-//            groupId 'com.github.fmaxx.stopwatch'
-            groupId 'library'
+            groupId 'AndroidStopwatch'
             artifactId getArtifactId()
             version getVersion()
             artifact("$buildDir/outputs/aar/${getArtifactId()}-release.aar")
@@ -55,32 +53,74 @@ publishing {
 
     repositories {
         maven {
-            name = "GitHubPackages"
-            /** Configure path of your package repository on Github
-             ** Replace GITHUB_USERID with your/organisation Github userID
-             ** and REPOSITORY with the repository name on GitHub
-             */
-            url = uri("https://maven.pkg.github.com/fmaxx/androidStopwatch")
-            credentials {
-                /** Create github.properties in root project folder file with
-                 ** gpr.usr=GITHUB_USER_ID & gpr.key=PERSONAL_ACCESS_TOKEN
-                 ** Set env variable GPR_USER & GPR_API_KEY if not adding a properties file**/
+            def githubProperties = new Properties()
+            githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
 
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/fmaxx/AndroidStopwatch")
+            credentials {
                 username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
                 password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
             }
         }
     }
-}
-
-
-// shared deps
-apply from: "$rootProject.projectDir/base.gradle"
+}*/
 
 android {
+    compileSdk 33
     namespace 'com.github.fmaxx.stopwatch'
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
     implementation(libs.lifecycleViewmodelKtx)
+    testImplementation(libs.bundles.test)
+    androidTestImplementation(libs.bundles.androidTest)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = 'AndroidStopwatch'
+                artifactId = getArtifactId()
+                version = getVersion()
+            }
+        }
+    }
 }
