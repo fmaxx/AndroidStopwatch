@@ -18,7 +18,7 @@ add the dependency to your module build.gradle
 ```groovy
 dependencies {
     //...
-    implementation('com.github.fmaxx:AndroidStopwatch:0.0.0')
+    implementation('com.github.fmaxx:AndroidStopwatch:0.0.2')
 }
 ```
 
@@ -32,10 +32,12 @@ val stopwatch = Stopwatch.Builder(scope = YOUR_SCOPE).build()
 
 // collect data with Flow
 YOUR_SCOPE.launch {
-    stopwatch.ticker.collect { elapsedMilliseconds ->
+    stopwatch.collect { elapsedMilliseconds ->
         println("elapsed: $elapsedMilliseconds")
     }
 }
+
+stopwatch.start()
 ```
 
 ## Activity case
@@ -45,11 +47,12 @@ YOUR_SCOPE.launch {
     val stopwatch = Stopwatch.Builder(scope = lifecycleScope).build()
     lifecycleScope.launch {
         repeatOnLifecycle(Lifecycle.State.STARTED) {
-            stopwatch.ticker.collect { elapsedMilliseconds ->
+            stopwatch.collect { elapsedMilliseconds ->
                 println("elapsed: $elapsedMilliseconds")
             }
         }
     }
+    stopwatch.start()
 }
 ```
 
