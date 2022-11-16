@@ -53,6 +53,19 @@ YOUR_SCOPE.launch {
 }
 ```
 
+## Settings
+
+Stopwatch.Builder has additional methods
+`setTickDelay(milliseconds: Long)` - milliseconds between each time tick (should be more than zero)
+`setStartMilliseconds(milliseconds: Long)` - milliseconds started at (should be more than zero)
+
+```kotlin
+val stopwatch = Stopwatch.Builder(scope = YOUR_SCOPE)
+    .setTickDelay(20)
+    .setStartMilliseconds(10_000)
+    .build()
+```
+
 
 
 
